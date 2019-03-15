@@ -128,7 +128,7 @@ def start_command_simulator(stdscr):
     # Return if we couldn't to the bridge
     try:
         hcc = get_hue_command_controller()
-    except PhueException as e:
+    except (OSError, PhueException) as e:
         ui_popup(stdscr,
             "Failed to start Command Simulator",
             [str(e)])
@@ -186,7 +186,7 @@ def connect_bridge(stdscr):
         hue = Bridge(ip=hue_ip, config_file_path=hue_config)
         hue.get_api() # will throw exception if there is a connection error
         ui_popup(stdscr, "Success!", ["Connected to Hue bridge."])
-    except PhueException as e:
+    except (OSError, PhueException) as e:
         ui_popup(stdscr,
             "Failed to connect to Hue bridge",
             [str(e)])
