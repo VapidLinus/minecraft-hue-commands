@@ -40,13 +40,16 @@ class SpigotOutputWindow:
         try:
             # Look through each new line
             for name, line in iter(self.output_queue.get_nowait, None):
+                # Decode the outputted line.
+                # Converts \n to an actual new line, e.g.
+                line = line.decode('ascii')
+
                 # Write the outputted line to the window 
                 self.window.addstr("{}{}".format(name, line))
 
                 # Decode the outputted line and match it with the regex below.
                 # The regex searches for the output string that is printed when the setblock command is used in a command block.
                 # It also extracts the 3 coordinates that are also outputted in the outputted line.
-                line = line.decode('ascii')
                 match = re.search(".*\[@: Changed the block at (\-*\d{1,10}), (\-*\d{1,10}), (\-*\d{1,10})]", line)
                 if match:
                     # Get the three extracted coordinates
