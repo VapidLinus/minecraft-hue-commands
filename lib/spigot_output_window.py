@@ -65,7 +65,7 @@ class SpigotOutputWindow:
                         except (KeyboardInterrupt, SystemExit):
                             raise
                         except Exception as e:
-                            self.window.addstr(str(e))
+                            self.window.addstr(str(e) + "\n")
                 
                 refresh = True
         except queue.Empty:
