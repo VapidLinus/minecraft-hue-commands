@@ -60,7 +60,12 @@ class SpigotOutputWindow:
                     self.window.addstr("Found set block at {}, {}, {}\n".format(x, y, z), color_pair(3))
                     # Execute all callbacks
                     for callback in self.set_block_callbacks:
-                        callback(x, y, z)
+                        try:
+                            callback(x, y, z)
+                        except (KeyboardInterrupt, SystemExit):
+                            raise
+                        except Exception as e:
+                            self.window.addstr(str(e))
                 
                 refresh = True
         except queue.Empty:
